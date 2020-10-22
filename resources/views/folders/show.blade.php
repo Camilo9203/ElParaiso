@@ -8,7 +8,7 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-12 text-left">
-              <a href="{{ route('folders.create') }}" class="btn btn-md btn-primary"><span class="material-icons">archive</span> Añadir Documento</a>
+              <a href="" data-toggle="modal" data-target="#fileModal" class="btn btn-md btn-primary"><span class="material-icons">archive</span> Añadir Documento</a>
             </div>
           </div>
           <div class="card">
@@ -37,7 +37,7 @@
                     </th>
                   </thead>
                   <tbody>
-                    {{-- @forelse ($files as $file)
+                    @forelse ($files as $file)
                       <tr>
                         <td>
                           <a href="">{{ $file->name }}</a>
@@ -61,7 +61,7 @@
                           <td>No hay registros</td>
                         </tr>
                         
-                    @endforelse --}}
+                    @endforelse
                   </tbody>
                 </table>
               </div>
@@ -71,5 +71,7 @@
       </div>
     </div>
   </div>
-
+  <form class="form" method="POST" action="{{ route('files.store') }}">
+    @include('files._form', ["titleCard" => 'Nueva Carpeta', "btnText" => 'Crear Carpeta'])
+  </form>
 @endsection

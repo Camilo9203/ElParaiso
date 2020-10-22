@@ -87,10 +87,12 @@ class FolderController extends Controller
     {
         
         $folder = $folder;
+        $files = File::orderby('folder_id')->paginate();
         
         return view('folders.show', [
 
-            'folder' => $folder
+            'folder' => $folder,
+            'files' => $files
         ]);
     }
     /**

@@ -58,7 +58,7 @@
                           {{ $user->created_at }}
                         </td>
                         <td class="td-actions text-center">
-                            <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('user.edit', $user) }}" data-original-title="" title="">
+                            <a rel="tooltip"  data-toggle="modal" data-target="#userModal" class="btn btn-success btn-link" href="" data-original-title="" title="">
                               <i class="material-icons">edit</i>
                               <div class="ripple-container"></div>
                             </a>
@@ -94,6 +94,9 @@
   <form class="form" method="POST" action="{{ route('user.store') }}">
     @include('users._form', ['btnText' => 'Crear Usuario', 'titleCard' => 'Crear Usuario'])
  </form>
+
+
+
 
 
 @endsection

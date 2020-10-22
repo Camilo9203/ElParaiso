@@ -39,16 +39,16 @@ class FileController extends Controller
     public function store()
     {
 
-        // $name = request('nit');
-        // $path = public_path();
+        $name = request('nit');
+        $path = public_path();
         
-        // $files = Storage::files(public_path());
-        // dd($files);
+        $files = Storage::files(public_path());
+        dd($files);
         
-        // Storage::makeDirectory($name);
-        // Folder::create(['patch' = ])
-        // // Folder::create($request->validated());
-        // return redirect()->route('folders.index')->with('status', 'Tu proyecto fue creado con exito');
+        Storage::makeDirectory($name);
+        Folder::create(['patch' = ])
+        // Folder::create($request->validated());
+        return redirect()->route('folders.index')->with('status', 'Tu proyecto fue creado con exito');
 
     }
 

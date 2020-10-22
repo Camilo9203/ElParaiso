@@ -13,7 +13,7 @@ class Folder extends Model
 
     public function getRouteKeyName() 
     {
-        return 'nit';
+        return 'id';
     }
 }
 

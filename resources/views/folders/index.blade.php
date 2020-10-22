@@ -19,7 +19,7 @@
         @endif
         <div class="row">
           <div class="col-12 text-left">
-            <a href="" data-toggle="modal" data-target="#folderModal"class="btn btn-md btn-primary"><span class="material-icons">create_new_folder</span> Nueva Carpeta</a>
+            <a href="" data-toggle="modal" data-target="#folderModal" class="btn btn-md btn-primary"><span class="material-icons">create_new_folder</span> Nueva Carpeta</a>
             
           </div>
         </div>
@@ -55,7 +55,7 @@
                   @forelse ($folders as $folder)
                     <tr>
                       <td>
-                        <a href="">{{ $folder->id }}</a>
+                        <a href="{{ route('folders.show', $folder) }}">{{ $folder->id }}</a>
                       </td>
                       <td>
                         {{ $folder->name }}

@@ -29,11 +29,14 @@ Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->
 Route::group(['middleware' => 'auth'], function () {
 	
 	
-	Route::resource('file-manager', 'App\Http\Controllers\FolderController')
+	Route::resource('folder-manager', 'App\Http\Controllers\FolderController')
     ->names('folders')
-	->parameters(['file-manager' => 'folder']);
+	->parameters(['folder-manager' => 'folder']);
 
-	
+	Route::resource('file-manager', 'App\Http\Controllers\FolderController')
+	->names('files')
+	->parameters(['file-manager' => 'file']);
+
 	// Las siete rutas REST <p
     // Route::get ('/portafolio', 'ProjectController@index')->name('projects.index');
     // Route::get ('/portafolio/crear', 'ProjectController@create')->name('projects.create');
@@ -42,8 +45,6 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::post ('/portafolio', 'ProjectController@store')->name('projects.store');
     // Route::get ('/portafolio/{project}', 'ProjectController@show')->name('projects.show');
     // Route::delete ('/portafolio/{project}', 'ProjectController@destroy')->name('projects.destroy');
-    
-
 	
 	// Route::get('notifications', function () {
 	// 	return view('pages.notifications');
