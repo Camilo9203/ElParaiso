@@ -15,6 +15,12 @@ class Folder extends Model
     {
         return 'id';
     }
+
+    public function files()
+    {
+        return $this->hasMany('App\Models\File');
+    }
+
 }
 
     

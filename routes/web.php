@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,21 +21,33 @@ Route::get('/', function () {
 
 
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
+
+	Route::view ('/data', 'folders.index')->name('data');
 	
+	Route::get ('/downloads/{file}', 'App\Http\Controllers\FileController@download')->name('dowmloads');
+
+
+	
+	Route::view ('/pruebas', 'pruebas')->name('pruebas');
 	
 	Route::resource('folder-manager', 'App\Http\Controllers\FolderController')
     ->names('folders')
 	->parameters(['folder-manager' => 'folder']);
 
-	Route::resource('file-manager', 'App\Http\Controllers\FolderController')
+	Route::resource('file-manager', 'App\Http\Controllers\FileController')
 	->names('files')
-	->parameters(['file-manager' => 'file']);
+	->parameters(['file-manager' => 'folder']);
+
+	// Route::resource('category-manager', 'App\Http\Controllers\CategoryController')
+	// ->names ('categories')
+	// ->parameters(['category-manager' => 'category']);
 
 	// Las siete rutas REST <p
     // Route::get ('/portafolio', 'ProjectController@index')->name('projects.index');
@@ -46,13 +58,11 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get ('/portafolio/{project}', 'ProjectController@show')->name('projects.show');
     // Route::delete ('/portafolio/{project}', 'ProjectController@destroy')->name('projects.destroy');
 	
-	// Route::get('notifications', function () {
-	// 	return view('pages.notifications');
-	// })->name('notifications');
+	Route::get('notifications', function () {
+		return view('pages.notifications');
+	})->name('notifications');
 
 });
-
-
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);

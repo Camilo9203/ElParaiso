@@ -22,7 +22,7 @@
                             <i class="material-icons">face</i>
                         </span>
                         </div>
-                        <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name', $user->name) }}" required>
+                        <input type="text" name="name" class="form-control" placeholder="{{ __('Name') }}" value="{{ old('name') }}" required>
                     </div>
                     @if ($errors->has('name'))
                         <div id="name-error" class="error text-danger pl-3" for="name" style="display: block;">
@@ -37,7 +37,7 @@
                             <i class="material-icons">email</i>
                         </span>
                         </div>
-                        <input type="email" name="email" class="form-control" placeholder="{{ __('Email') }}" value="{{ old('email', $user->email) }}" required>
+                        <input type="email" name="email" class="form-control" placeholder="{{ __('Email') }}" value="{{ old('email') }}" required>
                     </div>
                     @if ($errors->has('email'))
                         <div id="email-error" class="error text-danger pl-3" for="email" style="display: block;">

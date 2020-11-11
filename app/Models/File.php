@@ -15,4 +15,14 @@ class File extends Model
     {
         return 'name';
     }
+
+    public function folder()
+    {
+        return $this->belongsTo('App\Models\Folder');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Models\Category');
+    }
 }

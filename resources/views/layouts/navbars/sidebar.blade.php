@@ -45,7 +45,7 @@
       <div class="collapse show" id="fileManager">
         <ul class="nav">
           <li class="nav-item{{ $activePage == 'files-manager' ? ' active' : '' }}">
-            <a class="nav-link" href="{{ route('folders.index') }}">
+            <a class="nav-link" href="{{ route('data') }}">
               <i class="material-icons">work</i>
                 <p>{{ __('File Manager') }}</p>
             </a>

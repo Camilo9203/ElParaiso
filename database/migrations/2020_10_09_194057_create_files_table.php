@@ -17,9 +17,10 @@ class CreateFilesTable extends Migration
             $table->id();
             $table->string('name');
             $table->date('created');
-            $table->foreignId('category_id')->constrained()->onDelete('restrict');
-            $table->foreignId('folder_id')->constrained()->onDelete('restrict');
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('folder_id')->constrained();
             $table->timestamps();
+            $table->string('file')->nullable();
         });
     }
 

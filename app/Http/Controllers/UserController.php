@@ -18,16 +18,11 @@ class UserController extends Controller
      * @param  \App\Models\User  $model
      * @return \Illuminate\View\View
      */
-    public function index(User $user)
+    public function index()
     {
-        return view('users.index', ['users' => $user->paginate()]);
-    }
-
-    public function show(User $user)
-    {
-        $user = $user;
-        return view('users.show', [
-            'user' => $user
+        $users = User::get();
+        return view('users.index', [
+            'users' => $users
         ]);
     }
 
@@ -51,12 +46,10 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('status', 'El usuario ha sido creado con exito');
     }
 
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('users.edit', [
-
-            'user' => $user
-        ]);
+        $user = User::findOrFail($id);
+        return $user;
     }
 
     public function update(User $user, UserRequest $request)
@@ -66,10 +59,11 @@ class UserController extends Controller
         return  redirect()->route('user.show')->with('status', 'El usuario se ha actualizaco con exito');
 
     }
-    public function destroy (User $user)
+    public function destroy ($id)
 
     {
-        return $user;
+        $user = User::findOrFail($id);
+        $user->delete();
         
         // $user->delete();        
         // return redirect()->route('user.index')->with('status', 'El usuario se ha eliminado con exito');

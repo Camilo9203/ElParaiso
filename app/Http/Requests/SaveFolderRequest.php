@@ -28,7 +28,7 @@ class SaveFolderRequest extends FormRequest
 
             'id' => [ 
             
-                'required', 'min:6', 'max:10', Rule::unique((new Folder)->getTable())->ignore($this->route()->folder->id ?? null)
+                'required', 'min:6', 'max:12', Rule::unique((new Folder)->getTable())->ignore($this->route()->folder->id ?? null)
 
             ],
             

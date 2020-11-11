@@ -13,7 +13,7 @@
                 <i class="material-icons">content_copy</i>
               </div>
               <p class="card-category">Total de archivos</p>
-              <h3 class="card-title">{{ $CountFile }}</h3>
+              <h3 class="card-title">{{ $files->count() }}</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -30,7 +30,7 @@
                 <i class="material-icons">folder</i>
               </div>
               <p class="card-category">Carpetas</p>
-              <h3 class="card-title">{{ $CountFolder }}</h3>
+              <h3 class="card-title">{{ $folders->count() }}</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -47,7 +47,7 @@
                 <i class="material-icons">account_box</i>
               </div>
               <p class="card-category">Usuarios</p>
-                <h3 class="card-title">{{$CountUser}}</h3> 
+                <h3 class="card-title">{{$users->count()}}</h3> 
             </div>
             <div class="card-footer">
               <div class="stats">

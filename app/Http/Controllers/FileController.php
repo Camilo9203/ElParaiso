@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateFolderRequest;
+use App\Http\Requests\SaveFileRequest;
+use App\Models\Category;
+use App\Models\File;
 use App\Models\Folder;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class FileController extends Controller
 {
@@ -17,17 +20,8 @@ class FileController extends Controller
      */
     public function index()
     {
-        
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
+        $files = File::with('folder', 'category')->get();
+        return  $files;
     }
 
     /**
@@ -36,57 +30,102 @@ class FileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(SaveFileRequest $request)
     {
 
-        $name = request('nit');
-        $path = public_path();
-        
-        $files = Storage::files(public_path());
-        dd($files);
-        
-        Storage::makeDirectory($name);
-        Folder::create(['patch' = ])
-        // Folder::create($request->validated());
-        return redirect()->route('folders.index')->with('status', 'Tu proyecto fue creado con exito');
+        $folder = $request->input('folder_id');
+        $path = $folder . "/";
+        $name = $request->input('name') . ".pdf";
+        $pathFile = $path . $name;
 
+        if ($request->hasFile('file')) {
+            
+            $file = $request->file('file');
+            Storage::putFileAs($path, $file, $name);
+
+            File::create([ 
+
+                'name' => $request->input('name'),
+                'created' => $request->input('created'),
+                'category_id' => $request->input('category_id'),
+                'folder_id' => $folder,
+                'file' => $pathFile,
+
+            ]);    
+
+        }
+        else {
+            return 'Sin archivo';
+        }
     }
-
-    /**
+     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Folder $folder)
+    public function show($file)
     {
-        // $folder = $folder;
-        // return view('folders.show', [
-
-        //     'folder' => $folder
-        // ]);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        
+        return File::findOrFail($file);
+        
     }
 
+
     /**
+    * Display the specified resource.
+    *
+    * @param  int  $id
+    * @return \Illuminate\Http\Response
+    */
+   public function download($id)
+   {
+      $file = File::findOrFail($id);
+      $path = $file->file;
+      $headers = array(
+        'Content-Type: application/pdf',
+        );
+      return response()->download(public_path("folders/" . $path, $headers));
+        
+   }
+
+   /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SaveFileRequest $request)
     {
-        //
+        $file = File::findOfFail($request->id);
+        Storage::delete($file->file);
+
+
+        $folder = $request->input('folder_id');
+        $path = $folder . "/";
+        $name = $request->input('name') . ".pdf";
+        $pathFile = $path . $name;
+
+        if ($request->hasFile('file')) {
+            
+            $file = $request->file('file');
+            Storage::putFileAs($path, $file, $name);
+
+            File::updated([ 
+
+                'name' => $request->input('name'),
+                'created' => $request->input('created'),
+                'category_id' => $request->input('category_id'),
+                'folder_id' => $folder,
+                'file' => $pathFile,
+
+            ]);    
+
+        }
+        else {
+            return 'Sin archivo';
+        }
     }
 
     /**
@@ -97,6 +136,9 @@ class FileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $file = File::findOrFail($id);
+        $path = $file->file;
+        Storage::delete($path);
+        $file->delete();
     }
 }

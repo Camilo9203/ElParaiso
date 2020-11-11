@@ -3,9 +3,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\SaveFileRequest;
 use App\Http\Requests\SaveFolderRequest;
 use App\Models\File;
 use App\Models\Folder;
+use App\Models\Category;
 use Hamcrest\Core\HasToString;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
@@ -26,8 +29,9 @@ class FolderController extends Controller
     
     public function index()
     {
-        $folders = Folder::orderby('name')->paginate();
-        return view('folders.index', compact('folders'));
+        $folders = Folder::with('files')->get();
+        return $folders;
+
     }
 
     /**
@@ -69,10 +73,10 @@ class FolderController extends Controller
             
             ]);
         
-            return redirect()->route('folders.index')->with('status', 'La carpeta fue creada con exito');
+        
         }
         else {
-            return redirect()->route('folders.index')->with('status', 'La carpeta no ha podido ser creada');;
+             
         }
 
     }
@@ -83,17 +87,12 @@ class FolderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Folder $folder)
+    public function show($folder)
     {
         
-        $folder = $folder;
-        $files = File::orderby('folder_id')->paginate();
+        return Folder::where('id', $folder)->with('files')->first();
         
-        return view('folders.show', [
-
-            'folder' => $folder,
-            'files' => $files
-        ]);
+        
     }
     /**
      * Show the form for editing the specified resource.
@@ -113,9 +112,19 @@ class FolderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SaveFolderRequest $request)
     {
-        //
+        $folder = Folder::findOrFail($request->id);
+        
+    
+            Folder::updated([
+
+                'name' => $request->input('name'),
+            
+            ]);
+            
+            return $folder;
+ 
     }
 
     /**
@@ -126,6 +135,9 @@ class FolderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $folder = Folder::findOrFail($id);
+        $folder->delete($id);
+        Storage::deleteDirectory($folder->id);
+        
     }
 }

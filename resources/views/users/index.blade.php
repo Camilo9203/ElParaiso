@@ -29,60 +29,38 @@
                 </div>
               </div>
               <div class="table-responsive">
-                <table class="table">
+                <table id="userTable" class="table table-striped text-center" style="width:100%">
                   <thead class=" text-primary">
-                    <tr><th>
-                      Nombre
-                    </th>
-                    <th>
-                      Correo Electrónico
-                    </th>
-                    <th>
-                      Fecha de Creación
-                    </th>
-                    <th class="text-right">
-                      Acciones
-                    </th>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Correo Electrónico</th>
+                      <th>Fecha de Creación</th>
+                      <th>Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     @forelse ($users as $user)
-                      <tr>
-                        <td>
-                          {{ $user->name }}
-                        </td>
-                        <td>
-                          {{ $user->email }}
-                        </td>
-                        <td>
-                          {{ $user->created_at }}
-                        </td>
-                        <td class="td-actions text-center">
+                      @if ($user->email != auth()->user()->email) 
+                        <tr>
+                          <td>{{ $user->name }}</td>
+                          <td>{{ $user->email }}</td>
+                          <td>{{ $user->created_at }}</td>
+                          <td class="td-actions">
                             <a rel="tooltip"  data-toggle="modal" data-target="#userModal" class="btn btn-success btn-link" href="" data-original-title="" title="">
                               <i class="material-icons">edit</i>
                               <div class="ripple-container"></div>
                             </a>
-                            <a href="" onclick="document.getElementById('delete-user').submit()">
+                            <a href="">
                               <i class="material-icons">delete</i>
-                            </a>
-                            {{-- Fomr destroy user --}}
-                            <form id="delete-user"
-                            class="d-none"
-                            action="{{ route('user.destroy', $user) }}" 
-                            method="POST">
-                            @csrf  @method('DELETE')
-                            </form>   
-                        </td>
+                            </a> 
+                          </td>
+                        </tr>
+                      @endif
                     @empty
-                      <tr>
-                        No hay usuarios para mostrar
-                      </tr>
                     @endforelse
-
                   </tbody>
                 </table>
               </div>
-              {{ $users->links() }}
             </div>
           </div>
         </div>
@@ -94,9 +72,23 @@
   <form class="form" method="POST" action="{{ route('user.store') }}">
     @include('users._form', ['btnText' => 'Crear Usuario', 'titleCard' => 'Crear Usuario'])
  </form>
+@endsection
+@section('scripts')
+  <script>
+      $('#userTable').DataTable({
+        
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json'
+        } 
 
+        // "serverSid": true,
+        // "ajax": "{{ url('api/users') }}",
+        // "columns": [
+        //   {data: 'id'},
+        //   {data: 'name'},
+          
+        // ]
 
-
-
-
+      });
+  </script>
 @endsection
