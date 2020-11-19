@@ -18,7 +18,7 @@
             <div class="card-footer">
               <div class="stats">
                 <i class="material-icons">content_copy</i>
-                <a href="{{ route('folders.index') }}">Mas información...</a>
+                <a href="{{ route('data') }}">Mas información...</a>
               </div>
             </div>
           </div>
@@ -35,7 +35,7 @@
             <div class="card-footer">
               <div class="stats">
                 <i class="material-icons">folder</i>
-                <a href="{{ route('folders.index') }}">Mas información...</a>
+                <a href="{{ route('data') }}">Mas información...</a>
               </div>
             </div>
           </div>
@@ -52,7 +52,7 @@
             <div class="card-footer">
               <div class="stats">
                 <i class="material-icons">account_box</i>                
-                <a href="{{ route('folders.index') }}">Mas información...</a>
+                <a href="{{ route('user.index') }}">Mas información...</a>
               </div>
             </div>
           </div>
@@ -64,12 +64,12 @@
                 <i class="material-icons">archive</i>
               </div>
               <p class="card-category">Descargas</p>
-              <h3 class="card-title">230</h3>
+              <h3 class="card-title">200</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
                 <i class="material-icons">archive</i>
-                <a href="{{ route('folders.index') }}">Mas información...</a>
+                <a href="{{ route('data') }}">Mas información...</a>
             </div>
           </div>
         </div>
@@ -130,7 +130,7 @@
 
       {{-- Tareas y estadisticas de usuario --}}
       <div class="row">
-        <div class="col-lg-6 col-md-12">
+        {{-- <div class="col-lg-6 col-md-12">
           <div class="card">
             <div class="card-header card-header-tabs card-header-primary">
               <div class="nav-tabs-navigation">
@@ -374,46 +374,62 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
         <div class="col-lg-6 col-md-12">
           <div class="card">
-            <div class="card-header card-header-warning">
+            <div class="card-header card-header-primary">
               <h4 class="card-title">Estadisticas de usarios</h4>
               <p class="card-category">Actividad reciente de los usuarios</p>
             </div>
             <div class="card-body table-responsive">
               <table class="table table-hover">
                 <thead class="text-warning">
-                  <th>ID</th>
                   <th>Name</th>
+                  <th>Email</th>
                   <th>Ultimo ingreso</th>
                   <th>Archivos Subidos</th>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Dakota Rice</td>
-                    <td>$36,738</td>
-                    <td>Niger</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>Minerva Hooper</td>
-                    <td>$23,789</td>
-                    <td>Curaçao</td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Sage Rodriguez</td>
-                    <td>$56,142</td>
-                    <td>Netherlands</td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Philip Chaney</td>
-                    <td>$38,735</td>
-                    <td>Korea, South</td>
-                  </tr>
+                  {{-- @forelse ($users as $user) 
+                    <tr>
+                      <td>{{ $user->name }}</td>
+                      <td>{{ $user->email }}</td>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  @empty
+                    <tr>Sin registros</tr>
+                  @endforelse --}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-danger">
+              <h4 class="card-title">Estadisticas de Carpetas</h4>
+              <p class="card-category">Actividad reciente de las carpetas</p>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                  <th>Cedula</th>
+                  <th>Nombre</th>
+                  <th>Archivos</th>
+                </thead>
+                <tbody>
+                  {{-- @forelse ($folders as $folder)
+                  
+                    <tr>
+                      <td>{{ $folder->id }}</td>
+                      <td>{{ $fodler->name }}</td>
+                      <td>{{ $folder->files->count() }}</td>
+                    </tr>
+                  
+                  @empty
+                      
+                  @endforelse --}}
                 </tbody>
               </table>
             </div>

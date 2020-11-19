@@ -32,10 +32,10 @@
                                 <td v-text="since(file.created_at)"></td>
                                 <td v-text="dirHuman(file.updated_at)"></td>
                                 <td class="td-actions">
-                                    <a href="#" @click.prevent="loadFieldsUpdate(file)">
+                                    <!-- <a href="#" @click.prevent="loadFieldsUpdate(file)">
                                         <i class="material-icons">edit</i>
                                         <div class="ripple-container"></div>
-                                    </a>
+                                    </a> -->
                                     <a href="#" @click.prevent="deleteFile(file)">
                                         <i class="material-icons">delete</i>
                                     </a>
@@ -64,56 +64,63 @@
                             
                             <div class="card-body ">
                             <!-- {{-- Name --}} -->
-                                <div class="bmd-form-group mt-3">
+                                <div class="bmd-form-group mt-3" :class="{'has-danger': $v.name.$error}">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             <i class="material-icons">face</i>
                                         </span>
                                         </div>
-                                        <input type="name" v-model="name" class="form-control" placeholder="Nombre" required>
+                                        <input type="name" v-model="$v.name.$model" class="form-control" placeholder="Nombre" required>
                                     </div>
+                                </div>                                        
+                                <div v-if="!$v.name.required" class="error text-danger pl-3" for="category" style="display: block;">
+                                    <strong>Nombre requerido</strong>
+                                </div>
+                                <div v-if="!$v.name.minLength" class="error text-danger pl-3" for="category" style="display: block;">
+                                    <strong>Minimo 4 caracteres</strong>
                                 </div>
 
-                                <!-- {{-- Created {{ $errors->has('date') ? ' has-danger' : '' }} --}} -->
-                                <div class="bmd-form-group mt-3">
+                                <!-- Created -->
+                                <div class="bmd-form-group mt-3" :class="{'has-danger': $v.created.$error}">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                         <span class="input-group-text">
                                             <i class="material-icons">date_range</i>
                                         </span>
                                         </div>
-                                        <input type="date" v-model="created" class="form-control" placeholder="Fecha de creación" required>
+                                        <input type="date" v-model="$v.created.$model" class="form-control" placeholder="Fecha de creación" required>
                                     </div>
+                                </div>                                        
+                                <div v-if="!$v.created.required" class="error text-danger pl-3" for="category" style="display: block;">
+                                    <strong>Fecha de creación requerida</strong>
                                 </div>
+                                
 
                                 <!-- {{-- Category --}} -->
-                                <div class="bmd-form-group mt-3">
+                                <div class="bmd-form-group mt-3" :class="{'has-danger' : $v.category_id.$error}">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <i class="material-icons">category</i>
                                             </span>
                                         </div>
-                                        <select class="custom-select" v-model="category_id">
-                                                <option selected>Seleccionar</option>
-                                                <option value="1">Cedula</option>
-                                                <option value="2">Comprobante de ingreso abono</option>
-                                                <option value="3">Orden de Pedido</option>
-                                                <option value="4">Comprobante de ingreso</option>
-                                                <option value="5">Contrato de compraventa o promesa</option>
-                                                <option value="6">Otro si al contrato de compraventa</option>
-                                                <option value="7">Pagare</option>
-                                                <option value="8">Orden de servicio</option>
-                                                <option value="9">Carta de propiedad o paz y salvo</option>
-                                                <option value="10">Otros</option>
+                                        <select class="custom-select" v-model="$v.category_id.$model">
+                                            <option value="1">Cedula</option>
+                                            <option value="2">Comprobante de ingreso abono</option>
+                                            <option value="3">Orden de Pedido</option>
+                                            <option value="4">Comprobante de ingreso</option>
+                                            <option value="5">Contrato de compraventa o promesa</option>
+                                            <option value="6">Otro si al contrato de compraventa</option>
+                                            <option value="7">Pagare</option>
+                                            <option value="8">Orden de servicio</option>
+                                            <option value="9">Carta de propiedad o paz y salvo</option>
+                                            <option value="10">Otros</option>
                                         </select>
                                     </div>
-                                    <!-- {{-- @if ($errors->has('category'))
-                                        <div id="name-error" class="error text-danger pl-3" for="category" style="display: block;">
-                                        <strong>{{ $errors->first('category') }}</strong>
+                                        <div v-if="!$v.category_id.required" class="error text-danger pl-3" for="category" style="display: block;">
+                                            <strong>Categoria requerida</strong>
                                         </div>
-                                    @endif --}} -->
                                 </div>
 
                                 <!-- {{-- File --}} -->
@@ -126,12 +133,16 @@
                                         </div>
                                         <input type="file" name="file" accept=".pdf" @change="getFile" class="form-control">
                                     </div>
+                                    
+                                    <div v-if="!$v.file.required" class="error text-danger pl-3" for="category" style="display: block;">
+                                        <strong>Archivo requerido</strong>
+                                    </div>
                                 </div>
                                 <!-- {{-- Buttons --}} -->
                                 <div class="card-footer justify-content-center">
                                     <button @click.prevent="clearFields()" type="button" class="btn btn-secondary" data-dismiss="modal" data-backdrop="false">Cerrar</button>
-                                    <button v-if="update == 0" @click.prevent="saveFile()" type="submit" class="btn btn-primary">Crear Archivo </button>
-                                    <button v-if="update != 0" @click.prevent="updateFile()" type="submit" class="btn btn-primary">Editar Archivo</button>
+                                    <button v-if="update == 0" :disabled="$v.$invalid" @click.prevent="saveFile()" type="submit" class="btn btn-primary">Crear Archivo </button>
+                                    <button v-if="update != 0" :disabled="$v.$invalid" @click.prevent="updateFile()" type="submit" class="btn btn-primary">Editar Archivo</button>
                                 </div>
                             </div>
                         </div>
@@ -194,6 +205,7 @@
 
 <script>
 
+    import { required, numeric, minLength, maxLength } from 'vuelidate/lib/validators'
     import moment from 'moment'
     import axios from 'axios'
     moment.locale('es');
@@ -226,8 +238,14 @@
             });
 
         },
+        validations: {
+            name: {required, minLength: minLength(4)},
+            created: {required},
+            category_id: {required},
+            file: {required}
+        },
         methods: {
-
+            
             fileTable: function (){
                 $(function(){
                     $('#fileTable').DataTable({
@@ -235,6 +253,7 @@
                         url: 'https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json'
                         },
                         retrieve: true,
+                        // destroy: true,
                         paging: true,
                     });
                 });
@@ -245,8 +264,15 @@
             dirHuman: function(d){
                 return moment(d).fromNow();
             },
-            getCategory: function(id){
-               
+            getCategory: function(c){
+                for (const category in this.categories) {
+                    if (category.id == c) {
+                        return category.name
+                    }
+                    else {
+                        
+                    }
+                }
             },
             getFile: function(event){
                 this.file = event.target.files[0];
@@ -264,7 +290,7 @@
                 var data = new FormData();
                 //Add to image selected
                 data.append('file', this.file);
-                data.append('name', this.name);
+                data.append('name', this.name.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase()))));
                 data.append('created', this.created);
                 data.append('category_id', this.category_id);
                 data.append('folder_id', this.folder_id);

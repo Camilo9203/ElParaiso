@@ -17,7 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
 
 
 
-mix.browserSync('http://blog.test');
+mix.browserSync('http://elpariso.test');
 
 if (mix.inProduction()){
 

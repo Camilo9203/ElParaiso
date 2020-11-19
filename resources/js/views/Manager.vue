@@ -54,63 +54,73 @@
     </div>
 
     <!-- Modal -->
-        <div class="modal" id="folderModal"  aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                
-                    <div class="modal-body">
-                        <div class="card">
-                            <div class="card-header card-header-primary text-center">
-                                <h4 v-if="update == 0" class="card-title"><strong>Crear Carpeta</strong></h4>
-                                <h4 v-if="update != 0" class="card-title"><strong>Editar Carpeta</strong></h4>
+    <div class="modal" id="folderModal"  aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header card-header-primary text-center">
+                            <h4 v-if="update == 0" class="card-title"><strong>Crear Carpeta</strong></h4>
+                            <h4 v-if="update != 0" class="card-title"><strong>Editar Carpeta</strong></h4>
+                        </div>
+                        <div class="card-body ">
+                            <div class="form-group">
+                                <div class="bmd-form-group mt-3" :class=" {'has-danger': $v.id.$error}">
+                                    <div class="input-group"> 
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">person_add</i>
+                                    </span>
+                                    </div>
+                                    <input v-if="update == 0" type="number" v-model.number="$v.id.$model" class="form-control" placeholder="Cedula" required>
+                                    <input v-if="update != 0" readonly type="number" v-model="id" class="form-control" placeholder="Cedula" required>
+                                </div>
+                                    <div v-if="!$v.id.required" class="error text-danger pl-3" for="name" style="display: block;">
+                                        <strong>Campo cedula es requerido</strong>
+                                    </div>
+                                    <div v-if="!$v.id.minLength" class="error text-danger pl-3" for="name" style="display: block;">
+                                        <strong>Minimo 4 digitos</strong>
+                                    </div>
+                                    <div v-if="!$v.id.maxLength" class="error text-danger pl-3" for="name" style="display: block;">
+                                        <strong>Maximo 14 digitos</strong>
+                                    </div>
+                                </div>
+                                <div class="bmd-form-group mt-3" :class="{'has-danger': $v.name.$error}">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="material-icons">face</i>
+                                    </span>
+                                    </div>
+                                    <input type="name" id="name" v-model="$v.name.$model" class="form-control" placeholder="Nombre" value="" required>
+                                </div>
+                                    <div v-if="!$v.name.required" class="error text-danger pl-3" for="name" style="display: block;">
+                                        <strong>Campo nombre es requerido</strong>
+                                    </div>
+                                    <div v-if="!$v.name.minLength" class="error text-danger pl-3" for="name" style="display: block;">
+                                        <strong>Minimo 4 caracteres</strong>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body ">
-                                <div class="form-group">
-                                    <div class="bmd-form-group mt-3"> <!--:class=" {'has-danger': errors != ''}"-->
-                                     <div class="input-group"> 
-                                        <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="material-icons">person_add</i>
-                                        </span>
-                                        </div>
-                                        <input v-if="update == 0" type="number" maxlength="10" v-model="id" class="form-control" placeholder="Cedula" value="" required>
-                                        <input v-if="update != 0" readonly type="number" maxlength="10" v-model="id" class="form-control" placeholder="Cedula" value="" required>
-                                    </div>
-                                        <div v-if="errros != ''" class="error text-danger pl-3" for="name" style="display: block;">
-                                            <strong v-text="errors.id"></strong>
-                                        </div>
-                                    </div>
-                                    <div class="bmd-form-group mt-3">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="material-icons">face</i>
-                                        </span>
-                                        </div>
-                                        <input type="name" v-model="name" class="form-control" placeholder="Nombre" value="" required>
-                                    </div>
-                                        <div v-if="errors" class="error text-danger pl-3" for="name" style="display: block;">
-                                            <strong v-text="errors.name"></strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer justify-content-center">
-                                    <button @click.prevent="clearFields()" type="button" class="btn btn-secondary" data-dismiss="modal" data-backdrop="false">Cerrar</button>
-                                    <button v-if="update == 0" @click.prevent="saveFolder()" type="submit" class="btn btn-primary">Crear Carpeta</button>
-                                    <button v-if="update != 0" @click.prevent="updateFolder(id)" type="submit" class="btn btn-primary">Editar Carpeta</button>
-                                </div>
+                            <div class="card-footer justify-content-center">
+                                <button @click.prevent="clearFields()" type="button" class="btn btn-secondary" data-dismiss="modal" data-backdrop="false">Cerrar</button>
+                                <button v-if="update == 0" :disabled="$v.$invalid" @click.prevent="saveFolder()" type="submit" class="btn btn-primary">Crear Carpeta</button>
+                                <button v-if="update != 0" @click.prevent="updateFolder(id)" type="submit" class="btn btn-primary">Editar Carpeta</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 </template>
 
 <script>
     import moment from 'moment'
     import axios from 'axios'
+    import { required, numeric, minLength, maxLength } from 'vuelidate/lib/validators'
     moment.locale('es');
 
     export default {
@@ -135,20 +145,21 @@
          created() {
             this.getFolders();
         },
-        computed: {
-           descriptionError: function() {
-               var val = this.id.trim();
-
-               if (val == '') {
-                   return 'El campo es obligatorio'
-               }
-               if (val < 6) {
-                   return 'El campo debe tener minimo 6 caracteres'
-               }
-           } 
+        validations: {
+            id: {required, minLength: minLength(4), maxLength: maxLength(14), numeric},
+            name: {required, minLength: minLength(4)},
         },
         methods: {
 
+            mayus: function (){
+                $('#name').keyup(function() {
+                    var datos = new String($('#name').val());
+                    datos = datos.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())));
+                    //datos = datos.toUpperCase(datos);
+                    $('#name').val(datos);
+                });
+                //e.value = e.value.toUpperCase();
+            },
             folderTable: function (){
                 $(function(){
                     $('#folderTable').DataTable({
@@ -165,7 +176,7 @@
                 axios.get(url).then(response => {
                     this.folders = response.data;
                     this.folderTable();
-                    });
+                });
             },
 
             since: function(d){
@@ -179,7 +190,7 @@
                 var url = '/folder-manager';
                 axios.post(url, {
                     id: this.id,
-                    name: this.name,
+                    name: this.name.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
                     }).then(response => {
                     this.getFolders();
                     this.id = '';
@@ -191,9 +202,7 @@
                     console.log(error.response.data.errors);
                     this.errors = error.response.data.errors;
                     swal("¡La carpeta no fue creada!", "Revisa la información y vuelve a intentar", "warning");
-                    // this.errors.push(error.response.data);
-                    // if (error.response.status == 422) {
-                    // }
+
                 });
             
             },
@@ -202,16 +211,16 @@
                 axios.put(url, {
                     name: this.name,
                 }).then(response => {
-                    this.getFolders();
+                    swal("!Buen trabajo!", "Carpeta actualizad con exito!", "success");
+                    $('#folderModal').modal('hide');
                     this.id = '';
                     this.name = '';
                     this.errors = [];
-                    swal("!Buen trabajo!", "Carpeta actualizad con exito!", "success");
-                    $('#folderModal').modal('hide');
                     this.clearFields();
+                    this.getFolders();
                 }).catch(error => {
-                    console.log(error.response.data.errors)
-                    this.errors = error.response.data;
+                    // console.log(error.response.data.errors)
+                    // this.errors = error.response.data;
                     swal("¡La carpeta no fue actualizada!", "Revisa la información y vuelve a intentar", "warning")
                 });
             },
@@ -228,8 +237,8 @@
                 .then((willDelete) => {
                     if (willDelete) {
                         axios.delete(url).then(response => {
-                            this.getFolders();
                             swal("¡Buen trabajo!", "La carpeta fue eliminada con exito", "success");
+                            this.getFolders();
                         }).catch(function(error){
                             swal("¡La carpeta no fue eliminada!", "Esta carpeta contiene archivos", "warning");
                         });
