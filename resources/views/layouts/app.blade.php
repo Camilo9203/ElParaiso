@@ -117,7 +117,7 @@
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="{{ asset('material') }}/js/plugins/jquery.dataTables.min.js"></script>
   
-  <script src="{{ asset('/js/app.js?id=9f31339f0edebd4101a3') }}" type="text/javascript"></script>
+  <script src="{{ asset('/js/app.js?id=c3d65862504afed565e0') }}" type="text/javascript"></script>
 </body>
 
 

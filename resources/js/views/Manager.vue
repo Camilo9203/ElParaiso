@@ -42,7 +42,7 @@
                                     <i class="material-icons">edit</i>
                                     <div class="ripple-container"></div>
                                 </a>
-                                <a href="#" @click.prevent="deleteFolder(folder)">
+                                <a href="#" @click="deleteFolder(folder)">
                                     <i class="material-icons">delete</i>
                                 </a>
                             </td>
@@ -105,8 +105,8 @@
                             </div>
                             <div class="card-footer justify-content-center">
                                 <button @click.prevent="clearFields()" type="button" class="btn btn-secondary" data-dismiss="modal" data-backdrop="false">Cerrar</button>
-                                <button v-if="update == 0" :disabled="$v.$invalid" @click.prevent="saveFolder()" type="submit" class="btn btn-primary">Crear Carpeta</button>
-                                <button v-if="update != 0" @click.prevent="updateFolder(id)" type="submit" class="btn btn-primary">Editar Carpeta</button>
+                                <button v-if="update == 0" :disabled="$v.$invalid" @click="saveFolder()" type="submit" class="btn btn-primary">Crear Carpeta</button>
+                                <button v-if="update != 0" @click="updateFolder(id)" type="submit" class="btn btn-primary">Editar Carpeta</button>
                             </div>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                 });
             },
             getFolders: function(){
-                var url = 'api/folders'
+                var url = '/folder-manager'
                 axios.get(url).then(response => {
                     this.folders = response.data;
                     this.folderTable();
@@ -206,10 +206,11 @@
                 });
             
             },
-            updateFolder: function (id){ //TODO: Actualizar Carpeta correctamente
+            updateFolder: function (id){ 
                 var url = '/folder-manager/' + id;
                 axios.put(url, {
-                    name: this.name,
+                    id: this.id,
+                    name: this.name.trim().toLowerCase().replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
                 }).then(response => {
                     swal("!Buen trabajo!", "Carpeta actualizad con exito!", "success");
                     $('#folderModal').modal('hide');

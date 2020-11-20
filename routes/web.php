@@ -20,8 +20,6 @@ Route::get('/', function () {
 })->name('login-home');
 
 
-
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Auth::routes();
 
@@ -33,34 +31,21 @@ Route::group(['middleware' => 'auth'], function () {
 	
 	Route::get ('/downloads/{file}', 'App\Http\Controllers\FileController@download')->name('dowmloads');
 
-
-	
 	Route::view ('/pruebas', 'pruebas')->name('pruebas');
 	
 	Route::resource('folder-manager', 'App\Http\Controllers\FolderController')
     ->names('folders')
-	->parameters(['folder-manager' => 'folder']);
+	->parameters(['folder-manager' => 'folder'])
+	->except('create', 'edit');
 
 	Route::resource('file-manager', 'App\Http\Controllers\FileController')
 	->names('files')
-	->parameters(['file-manager' => 'folder']);
-
-	// Route::resource('category-manager', 'App\Http\Controllers\CategoryController')
-	// ->names ('categories')
-	// ->parameters(['category-manager' => 'category']);
-
-	// Las siete rutas REST <p
-    // Route::get ('/portafolio', 'ProjectController@index')->name('projects.index');
-    // Route::get ('/portafolio/crear', 'ProjectController@create')->name('projects.create');
-    // Route::get ('/portafolio/{project}/editar', 'ProjectController@edit')->name('projects.edit');
-    // Route::patch ('/portafolio/{project}', 'ProjectController@update')->name('projects.update');
-    // Route::post ('/portafolio', 'ProjectController@store')->name('projects.store');
-    // Route::get ('/portafolio/{project}', 'ProjectController@show')->name('projects.show');
-    // Route::delete ('/portafolio/{project}', 'ProjectController@destroy')->name('projects.destroy');
+	->parameters(['file-manager' => 'folder'])
+	->except('create', 'edit');
 	
-	Route::get('notifications', function () {
-		return view('pages.notifications');
-	})->name('notifications');
+	// Route::get('notifications', function () {
+	// 	return view('pages.notifications');
+	// })->name('notifications');
 
 });
 

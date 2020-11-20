@@ -28,7 +28,7 @@
                             <tr v-for="file in files" :key="file.id">
                                 <td v-text="file.name"></td>
                                 <td v-text="file.created"></td>
-                                <td v-text="file.category_id"></td>
+                                <td v-text="file.category.name"></td>
                                 <td v-text="since(file.created_at)"></td>
                                 <td v-text="dirHuman(file.updated_at)"></td>
                                 <td class="td-actions">
@@ -36,7 +36,7 @@
                                         <i class="material-icons">edit</i>
                                         <div class="ripple-container"></div>
                                     </a> -->
-                                    <a href="#" @click.prevent="deleteFile(file)">
+                                    <a href="#" @click="deleteFile(file)">
                                         <i class="material-icons">delete</i>
                                     </a>
                                     <a href="#" @click.prevent="downloadFile(file)">
@@ -141,8 +141,8 @@
                                 <!-- {{-- Buttons --}} -->
                                 <div class="card-footer justify-content-center">
                                     <button @click.prevent="clearFields()" type="button" class="btn btn-secondary" data-dismiss="modal" data-backdrop="false">Cerrar</button>
-                                    <button v-if="update == 0" :disabled="$v.$invalid" @click.prevent="saveFile()" type="submit" class="btn btn-primary">Crear Archivo </button>
-                                    <button v-if="update != 0" :disabled="$v.$invalid" @click.prevent="updateFile()" type="submit" class="btn btn-primary">Editar Archivo</button>
+                                    <button v-if="update == 0" :disabled="$v.$invalid" @click="saveFile()" type="submit" class="btn btn-primary">Crear Archivo </button>
+                                    <button v-if="update != 0" :disabled="$v.$invalid" @click="updateFile()" type="submit" class="btn btn-primary">Editar Archivo</button>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                 </div>
             </div>
         </div>
-        <!-- Form Category -->
+        <!-- Categories -->
         <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
                 <div class="modal-content">
@@ -175,18 +175,6 @@
                                                 <td v-text="category.id"></td>
                                                 <td v-text="category.name"></td>
                                                 <td v-text="category.description"></td>
-                                                <!-- <td class="td-actions">
-                                                    <a href="#" @click.prevent="loadFieldsUpdate(file)">
-                                                        <i class="material-icons">edit</i>
-                                                        <div class="ripple-container"></div>
-                                                    </a>
-                                                    <a href="#" @click.prevent="deleteFile(file)">
-                                                        <i class="material-icons">delete</i>
-                                                    </a>
-                                                    <a href="#" @click.prevent="downloadFile(file)">
-                                                        <i class="material-icons">download</i>
-                                                    </a>
-                                                </td> -->
                                             </tr> 
                                         </tbody>
                                     </table>
@@ -199,8 +187,6 @@
             </div>
         </div>
     </div>
-
-    
 </template>
 
 <script>
@@ -237,6 +223,10 @@
                 this.categories = response.data;
             });
 
+            var url = '/folder-manager/' + this.id;
+            axios.get(url).then(response => {
+                this.folder = response.data;
+            });
         },
         validations: {
             name: {required, minLength: minLength(4)},
@@ -264,27 +254,16 @@
             dirHuman: function(d){
                 return moment(d).fromNow();
             },
-            getCategory: function(c){
-                for (const category in this.categories) {
-                    if (category.id == c) {
-                        return category.name
-                    }
-                    else {
-                        
-                    }
-                }
-            },
-            getFile: function(event){
-                this.file = event.target.files[0];
-            },
             getFiles: function(){
-                var url = '../api/folders/' + this.id;
+                var url = '/file-manager/' + this.id;
                 axios.get(url).then(response => {
-                    this.folder = response.data;
-                    this.files = response.data.files;
+                    this.files = response.data;
                     this.fileTable();
                 });
             },       
+            getFile: function(event){
+                this.file = event.target.files[0];
+            },
             saveFile: function(){
                 //Create formData
                 var data = new FormData();

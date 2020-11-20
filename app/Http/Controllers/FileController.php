@@ -20,8 +20,7 @@ class FileController extends Controller
      */
     public function index()
     {
-        $files = File::with('folder', 'category')->get();
-        return  $files;
+        return File::with('folder', 'category')->get();
     }
 
     /**
@@ -64,11 +63,9 @@ class FileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($file)
+    public function show($folder)
     {
-        
-        return File::findOrFail($file);
-        
+        return File::where('folder_id', $folder)->with('folder', 'category')->get();
     }
 
 
@@ -85,8 +82,7 @@ class FileController extends Controller
       $headers = array(
         'Content-Type: application/pdf',
         );
-      return response()->download(public_path("folders/" . $path, $headers));
-        
+      return response()->download(public_path("folders/" . $path, $headers)); 
    }
 
    /**

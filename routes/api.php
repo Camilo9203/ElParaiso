@@ -15,20 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-	
-	Route::resource('folders', 'App\Http\Controllers\FolderController')
-    ->names('folders')
-	->parameters(['folders' => 'folder']);
-
-
-
 Route::get('users', [App\Http\Controllers\UserController::class, 'index'])->name('user');
-Route::get('files', [App\Http\Controllers\FileController::class, 'index']);
-Route::get('files/{id}', [App\Http\Controllers\FileController::class, 'show']);
 Route::get('categories', [App\Http\Controllers\CategoryController::class, 'index']);
 
     
-    // return datatables()
-    //     ->eloquent(User::query())
-    //     ->toJson();
+    
 

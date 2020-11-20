@@ -27,12 +27,6 @@ class HomeController extends Controller
     public function index(User $user, Folder $folder, File $file)
     {
         
-        // $CountUser = DB::table('users')->count('*');
-        // $CountFile = DB::table('files')->count('*');
-        // $CountFolder = DB::table('folders')->count('*');
-        // $CountUser = DB::select('SELECT COUNT(*) id FROM users');
-
-
         return view('dashboard', [
             'users' => $user,
             'folders' => $folder,

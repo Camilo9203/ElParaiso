@@ -35,19 +35,6 @@ class FolderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('folders.create', [
-            
-            'folder' => new Folder
-        ]);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -55,30 +42,20 @@ class FolderController extends Controller
      */
     public function store(SaveFolderRequest $request)
     {
-
-         
         $nameFolder = $request->input('id');
         $namePath = "/" . $nameFolder;
-        
-
         Storage::makeDirectory($nameFolder);
-
         if (Storage::exists($nameFolder)) {
 
             Folder::create([
-
                 'id' => $request->input('id'),
                 'name' => $request->input('name'),
                 'path' => $namePath
-            
-            ]);
-        
-        
+            ]);          
         }
         else {
              
         }
-
     }
 
     /**
@@ -88,11 +65,9 @@ class FolderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($folder)
-    {
-        
+    {   
         return Folder::where('id', $folder)->with('files')->first();
-        
-        
+
     }
 
     /**
@@ -102,19 +77,13 @@ class FolderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SaveFolderRequest $request)
+    public function update(Request $request)
     {
         $folder = Folder::findOrFail($request->id);
-        
-    
-            Folder::updated([
-
-                'name' => $request->input('name'),
-            
-            ]);
-            
-            return $folder;
- 
+        $folder->id = $request->id;
+        $folder->name = $request->name;
+        $folder->save();
+        return $folder;
     }
 
     /**
