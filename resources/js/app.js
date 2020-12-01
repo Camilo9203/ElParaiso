@@ -12,7 +12,7 @@ import Vuelidate from 'vuelidate'
 window.Vue = require('vue');
 
 Vue.component('app', require('./components/AppComponent.vue').default)
-// Vue.component('manager-file', require('./components/ManagerFileComponent').default)
+Vue.component('v-select', vSelect)
 Vue.use(VueResouerce)
 Vue.use(Vuelidate)
 moment.locale('es')

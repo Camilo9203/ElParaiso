@@ -9,9 +9,11 @@
   <title>{{ config('app.name') }} | @yield('title')</title>
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('material') }}/img/apple-icon.png">
   <link rel="icon" type="image/png" href="{{ asset('material') }}/img/favicon.png">
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+    name='viewport' />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="{{ asset('material') }}/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
@@ -21,12 +23,13 @@
   {{-- DataTable --}}
   {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"> --}}
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap5.min.css">
-</head>
-  @auth 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
 
-      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+</head>
+@auth
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
       (function(){
       var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
       s1.src='https://embed.tawk.to/5fb3fa1a1535bf152a56eb2f/default';
@@ -35,23 +38,24 @@
       s0.parentNode.insertBefore(s1,s0);
       s1.async=true;
       })();
-    </script>
-    <!--End of Tawk.to Script-->
-  @endauth
+</script>
+<!--End of Tawk.to Script-->
+@endauth
+
 <body class="{{ $class ?? '' }}">
   @auth()
-      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-          @csrf
-      </form>
-      @include('layouts.page_templates.auth')
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+  </form>
+  @include('layouts.page_templates.auth')
   @endauth
-  
+
   @guest()
-      @include('layouts.page_templates.guest')
+  @include('layouts.page_templates.guest')
   @endguest
-  
+
   @if (auth()->check())
-    {{-- <div class="fixed-plugin">
+  {{-- <div class="fixed-plugin">
       <div class="dropdown show-dropdown">
         <a href="#" data-toggle="dropdown">
           <i class="fa fa-cog fa-2x"> </i>
@@ -75,33 +79,33 @@
           <li class="active">
             <a class="img-holder switch-trigger" href="javascript:void(0)">
               <img src="{{ asset('material') }}/img/sidebar-1.jpg" alt="">
-            </a>
-          </li>
-          <li>
-            <a class="img-holder switch-trigger" href="javascript:void(0)">
-              <img src="{{ asset('material') }}/img/sidebar-2.jpg" alt="">
-            </a>
-          </li>
-          <li>
-            <a class="img-holder switch-trigger" href="javascript:void(0)">
-              <img src="{{ asset('material') }}/img/sidebar-3.jpg" alt="">
-            </a>
-          </li>
-          <li>
-            <a class="img-holder switch-trigger" href="javascript:void(0)">
-              <img src="{{ asset('material') }}/img/sidebar-4.jpg" alt="">
-            </a>
-          </li>
-          
-        </ul>
-      </div>
-    </div> --}}
+  </a>
+  </li>
+  <li>
+    <a class="img-holder switch-trigger" href="javascript:void(0)">
+      <img src="{{ asset('material') }}/img/sidebar-2.jpg" alt="">
+    </a>
+  </li>
+  <li>
+    <a class="img-holder switch-trigger" href="javascript:void(0)">
+      <img src="{{ asset('material') }}/img/sidebar-3.jpg" alt="">
+    </a>
+  </li>
+  <li>
+    <a class="img-holder switch-trigger" href="javascript:void(0)">
+      <img src="{{ asset('material') }}/img/sidebar-4.jpg" alt="">
+    </a>
+  </li>
+
+  </ul>
+  </div>
+  </div> --}}
   @endif
 
 
-  
-   {{--DataTable --}}
-   
+
+  {{--DataTable --}}
+
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
@@ -116,7 +120,7 @@
 
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="{{ asset('material') }}/js/plugins/jquery.dataTables.min.js"></script>
-  
+
   <script src="{{ asset('/js/app.js?id=c3d65862504afed565e0') }}" type="text/javascript"></script>
 </body>
 
