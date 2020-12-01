@@ -2238,6 +2238,77 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2258,7 +2329,9 @@ moment__WEBPACK_IMPORTED_MODULE_1___default.a.locale("es");
       errors: [],
       update: 0,
       number: "",
-      setCategory: null
+      setCategory: null,
+      options: ["Titular", "Fallecido"],
+      nit: null
     };
   },
   created: function created() {
@@ -2281,6 +2354,13 @@ moment__WEBPACK_IMPORTED_MODULE_1___default.a.locale("es");
     number: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
       minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(2)
+    },
+    name: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"],
+      minLength: Object(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["minLength"])(4)
+    },
+    nit: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
     },
     created: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__["required"]
@@ -2446,6 +2526,7 @@ moment__WEBPACK_IMPORTED_MODULE_1___default.a.locale("es");
       this.category_id = "";
       this.file = "";
       this.update = "";
+      this.setCategory = null;
     }
   }
 });
@@ -25176,6 +25257,7 @@ var render = function() {
                             _vm._m(4),
                             _vm._v(" "),
                             _c("v-select", {
+                              staticClass: "col-10",
                               attrs: {
                                 options: _vm.categories,
                                 reduce: function(categories) {
@@ -25210,7 +25292,9 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm.setCategory == 2
+                    (_vm.setCategory != 1) &
+                    (_vm.setCategory != 9) &
+                    (_vm.setCategory != null)
                       ? _c(
                           "div",
                           {
@@ -25230,10 +25314,10 @@ var render = function() {
                                     expression: "$v.number.$model"
                                   }
                                 ],
-                                staticClass: "form-control",
+                                staticClass: "form-control col-10",
                                 attrs: {
                                   type: "number",
-                                  placeholder: "#",
+                                  placeholder: "Numero del documento",
                                   required: ""
                                 },
                                 domProps: { value: _vm.$v.number.$model },
@@ -25274,9 +25358,126 @@ var render = function() {
                                   },
                                   [
                                     _c("strong", [
+                                      _vm._v("Minimo 2 caracteres")
+                                    ])
+                                  ]
+                                )
+                              : _vm._e()
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.setCategory == 9
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "bmd-form-group mt-3",
+                            class: { "has-danger": _vm.$v.name.$error }
+                          },
+                          [
+                            _c("div", { staticClass: "input-group" }, [
+                              _vm._m(6),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.$v.name.$model,
+                                    expression: "$v.name.$model"
+                                  }
+                                ],
+                                staticClass: "form-control col-10",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: "Nombre del documento",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.$v.name.$model },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.$v.name,
+                                      "$model",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            !_vm.$v.name.required
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "error text-danger pl-3",
+                                    staticStyle: { display: "block" },
+                                    attrs: { for: "name" }
+                                  },
+                                  [_c("strong", [_vm._v("Nombre requerido")])]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.$v.name.minLength
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "error text-danger pl-3",
+                                    staticStyle: { display: "block" },
+                                    attrs: { for: "number" }
+                                  },
+                                  [
+                                    _c("strong", [
                                       _vm._v("Minimo 4 caracteres")
                                     ])
                                   ]
+                                )
+                              : _vm._e()
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.setCategory == 1
+                      ? _c(
+                          "div",
+                          {
+                            staticClass: "bmd-form-group mt-3",
+                            class: { "has-danger": _vm.$v.nit.$error }
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "input-group" },
+                              [
+                                _vm._m(7),
+                                _vm._v(" "),
+                                _c("v-select", {
+                                  staticClass: "col-10",
+                                  attrs: { options: _vm.options },
+                                  model: {
+                                    value: _vm.$v.nit.$model,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.$v.nit, "$model", $$v)
+                                    },
+                                    expression: "$v.nit.$model"
+                                  }
+                                })
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            !_vm.$v.nit.required
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "error text-danger pl-3",
+                                    staticStyle: { display: "block" },
+                                    attrs: { for: "nit" }
+                                  },
+                                  [_c("strong", [_vm._v("Campo requerido")])]
                                 )
                               : _vm._e()
                           ]
@@ -25291,7 +25492,7 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "input-group" }, [
-                          _vm._m(6),
+                          _vm._m(8),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -25448,7 +25649,7 @@ var render = function() {
             _c("div", { staticClass: "modal-content" }, [
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "card" }, [
-                  _vm._m(7),
+                  _vm._m(9),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-body" }, [
                     _c("div", { staticClass: "table-responsive" }, [
@@ -25461,7 +25662,7 @@ var render = function() {
                           attrs: { id: "fileTable" }
                         },
                         [
-                          _vm._m(8),
+                          _vm._m(10),
                           _vm._v(" "),
                           _c(
                             "tbody",
@@ -25585,6 +25786,28 @@ var staticRenderFns = [
         _c("i", { staticClass: "material-icons" }, [
           _vm._v("confirmation_number")
         ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "material-icons" }, [
+          _vm._v("insert_drive_file")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c("span", { staticClass: "input-group-text" }, [
+        _c("i", { staticClass: "material-icons" }, [_vm._v("face")])
       ])
     ])
   },

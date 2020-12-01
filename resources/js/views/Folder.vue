@@ -136,6 +136,7 @@
                       label="name"
                       v-model="$v.category_id.$model"
                       @input="selectCategory"
+                      class="col-10"
                     ></v-select>
                   </div>
                   <div
@@ -152,7 +153,11 @@
                 <div
                   class="bmd-form-group mt-3"
                   :class="{ 'has-danger': $v.number.$error }"
-                  v-if="setCategory == 2"
+                  v-if="
+                    (setCategory != 1) &
+                    (setCategory != 9) &
+                    (setCategory != null)
+                  "
                 >
                   <div class="input-group">
                     <div class="input-group-prepend">
@@ -163,8 +168,8 @@
                     <input
                       type="number"
                       v-model="$v.number.$model"
-                      class="form-control"
-                      placeholder="#"
+                      class="form-control col-10"
+                      placeholder="Numero del documento"
                       required
                     />
                   </div>
@@ -182,7 +187,73 @@
                     for="number"
                     style="display: block"
                   >
+                    <strong>Minimo 2 caracteres</strong>
+                  </div>
+                </div>
+
+                <!-- Name -->
+                <div
+                  class="bmd-form-group mt-3"
+                  :class="{ 'has-danger': $v.name.$error }"
+                  v-if="setCategory == 9"
+                >
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">insert_drive_file</i>
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      v-model="$v.name.$model"
+                      class="form-control col-10"
+                      placeholder="Nombre del documento"
+                      required
+                    />
+                  </div>
+                  <div
+                    v-if="!$v.name.required"
+                    class="error text-danger pl-3"
+                    for="name"
+                    style="display: block"
+                  >
+                    <strong>Nombre requerido</strong>
+                  </div>
+                  <div
+                    v-if="!$v.name.minLength"
+                    class="error text-danger pl-3"
+                    for="number"
+                    style="display: block"
+                  >
                     <strong>Minimo 4 caracteres</strong>
+                  </div>
+                </div>
+
+                <!-- Nit -->
+                <div
+                  class="bmd-form-group mt-3"
+                  :class="{ 'has-danger': $v.nit.$error }"
+                  v-if="setCategory == 1"
+                >
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <v-select
+                      :options="options"
+                      v-model="$v.nit.$model"
+                      class="col-10"
+                    ></v-select>
+                  </div>
+                  <div
+                    v-if="!$v.nit.required"
+                    class="error text-danger pl-3"
+                    for="nit"
+                    style="display: block"
+                  >
+                    <strong>Campo requerido</strong>
                   </div>
                 </div>
 
@@ -329,6 +400,8 @@ export default {
       update: 0,
       number: "",
       setCategory: null,
+      options: ["Titular", "Fallecido"],
+      nit: null,
     };
   },
   created() {
@@ -347,6 +420,8 @@ export default {
   },
   validations: {
     number: { required, minLength: minLength(2) },
+    name: { required, minLength: minLength(4) },
+    nit: { required },
     created: { required },
     category_id: { required },
     file: { required },
@@ -525,6 +600,7 @@ export default {
       this.category_id = "";
       this.file = "";
       this.update = "";
+      this.setCategory = null;
     },
   },
 };
