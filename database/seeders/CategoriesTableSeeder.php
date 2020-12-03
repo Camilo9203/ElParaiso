@@ -39,41 +39,48 @@ class CategoriesTableSeeder extends Seeder
         ]);
         DB::table('categories')->insert([
             'id' => '4',
+            'name' => 'Comprobante de ingreso',
+            'description' => 'Comprobante de ingreso (Cierre)',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        DB::table('categories')->insert([
+            'id' => '5',
             'name' => 'Contrato de compraventa o promesa',
             'description' => 'Comprobante de compraventa o promesa',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('categories')->insert([
-            'id' => '5',
+            'id' => '6',
             'name' => 'Otro si al contrato de compraventa',
             'description' => 'Otro si al contrato de compraventa',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('categories')->insert([
-            'id' => '6',
+            'id' => '7',
             'name' => 'Pagare',
             'description' => 'Pagare',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('categories')->insert([
-            'id' => '7',
+            'id' => '8',
             'name' => 'Orden de servicio',
             'description' => 'Orden de servicio (Orden cronologico)',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('categories')->insert([
-            'id' => '8',
+            'id' => '9',
             'name' => 'Carta de propiedad o paz y salvo',
             'description' => 'Carta de propiedad o paz y salvo (Orden Cronologico)',
             'created_at' => now(),
             'updated_at' => now()
         ]);
         DB::table('categories')->insert([
-            'id' => '9',
+            'id' => '10',
             'name' => 'Otros',
             'description' => 'Otros documentos',
             'created_at' => now(),

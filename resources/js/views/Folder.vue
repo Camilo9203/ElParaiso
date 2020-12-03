@@ -23,6 +23,7 @@
     <div class="card">
       <div class="card-header card-header-primary">
         <h4 class="card-title" v-text="'Documentación de ' + folder.name"></h4>
+        <h5 class="card-category" v-text="'C.C. ' + folder.id"></h5>
         <p class="card-category">Aquí puede administrar archivos</p>
       </div>
       <div class="card-body">
@@ -139,6 +140,7 @@
                       class="col-10"
                     ></v-select>
                   </div>
+                  <!-- Error -->
                   <div
                     v-if="!$v.category_id.required"
                     class="error text-danger pl-3"
@@ -149,17 +151,17 @@
                   </div>
                 </div>
 
-                <!-- {{-- Number --}} -->
+                <!-- {{-- addField --}} -->
                 <div
                   class="bmd-form-group mt-3"
-                  :class="{ 'has-danger': $v.number.$error }"
-                  v-if="
-                    (setCategory != 1) &
-                    (setCategory != 9) &
-                    (setCategory != null)
-                  "
+                  :class="{ 'has-danger': $v.addField.$error }"
+                  v-if="setCategory != null"
                 >
-                  <div class="input-group">
+                  <!-- Number -->
+                  <div
+                    class="input-group"
+                    v-if="(setCategory != 1) & (setCategory != 10)"
+                  >
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="material-icons">confirmation_number</i>
@@ -167,37 +169,14 @@
                     </div>
                     <input
                       type="number"
-                      v-model="$v.number.$model"
+                      v-model="$v.addField.$model"
                       class="form-control col-10"
-                      placeholder="Numero del documento"
+                      placeholder="0000"
                       required
                     />
                   </div>
-                  <div
-                    v-if="!$v.number.required"
-                    class="error text-danger pl-3"
-                    for="number"
-                    style="display: block"
-                  >
-                    <strong># Requerido</strong>
-                  </div>
-                  <div
-                    v-if="!$v.number.minLength"
-                    class="error text-danger pl-3"
-                    for="number"
-                    style="display: block"
-                  >
-                    <strong>Minimo 2 caracteres</strong>
-                  </div>
-                </div>
-
-                <!-- Name -->
-                <div
-                  class="bmd-form-group mt-3"
-                  :class="{ 'has-danger': $v.name.$error }"
-                  v-if="setCategory == 9"
-                >
-                  <div class="input-group">
+                  <!-- NameDocument -->
+                  <div class="input-group" v-if="setCategory == 10">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="material-icons">insert_drive_file</i>
@@ -205,37 +184,14 @@
                     </div>
                     <input
                       type="text"
-                      v-model="$v.name.$model"
+                      v-model="$v.addField.$model"
                       class="form-control col-10"
                       placeholder="Nombre del documento"
                       required
                     />
                   </div>
-                  <div
-                    v-if="!$v.name.required"
-                    class="error text-danger pl-3"
-                    for="name"
-                    style="display: block"
-                  >
-                    <strong>Nombre requerido</strong>
-                  </div>
-                  <div
-                    v-if="!$v.name.minLength"
-                    class="error text-danger pl-3"
-                    for="number"
-                    style="display: block"
-                  >
-                    <strong>Minimo 4 caracteres</strong>
-                  </div>
-                </div>
-
-                <!-- Nit -->
-                <div
-                  class="bmd-form-group mt-3"
-                  :class="{ 'has-danger': $v.nit.$error }"
-                  v-if="setCategory == 1"
-                >
-                  <div class="input-group">
+                  <!-- Death -->
+                  <div class="input-group" v-if="setCategory == 1">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
                         <i class="material-icons">face</i>
@@ -243,17 +199,26 @@
                     </div>
                     <v-select
                       :options="options"
-                      v-model="$v.nit.$model"
+                      v-model="$v.addField.$model"
                       class="col-10"
                     ></v-select>
                   </div>
+                  <!-- Errors -->
                   <div
-                    v-if="!$v.nit.required"
+                    v-if="!$v.addField.required"
                     class="error text-danger pl-3"
-                    for="nit"
+                    for="number"
                     style="display: block"
                   >
                     <strong>Campo requerido</strong>
+                  </div>
+                  <div
+                    v-if="!$v.addField.minLength"
+                    class="error text-danger pl-3"
+                    for="number"
+                    style="display: block"
+                  >
+                    <strong>Minimo 2 caracteres</strong>
                   </div>
                 </div>
 
@@ -287,6 +252,7 @@
                 </div>
                 <!-- {{-- Buttons --}} -->
                 <div class="card-footer justify-content-center">
+                  <!-- Close -->
                   <button
                     @click.prevent="clearFields()"
                     type="button"
@@ -296,6 +262,7 @@
                   >
                     Cerrar
                   </button>
+                  <!-- Create -->
                   <button
                     v-if="update == 0"
                     :disabled="$v.$invalid"
@@ -305,6 +272,7 @@
                   >
                     Crear Archivo
                   </button>
+                  <!-- Edit -->
                   <button
                     v-if="update != 0"
                     :disabled="$v.$invalid"
@@ -390,7 +358,7 @@ export default {
       categories: [],
       files: [],
       folder: [],
-      name: null,
+      name: "",
       description: null,
       created: "",
       category_id: "",
@@ -398,10 +366,9 @@ export default {
       file: "",
       errors: [],
       update: 0,
-      number: "",
       setCategory: null,
+      addField: "",
       options: ["Titular", "Fallecido"],
-      nit: null,
     };
   },
   created() {
@@ -419,9 +386,7 @@ export default {
     });
   },
   validations: {
-    number: { required, minLength: minLength(2) },
-    name: { required, minLength: minLength(4) },
-    nit: { required },
+    addField: { required, minLength: minLength(2) },
     created: { required },
     category_id: { required },
     file: { required },
@@ -454,14 +419,19 @@ export default {
       this.file = event.target.files[0];
     },
     selectCategory: function () {
+      this.addField = "";
+      this.name = "";
       this.setCategory = this.category_id;
+      if (this.setCategory != 10) {
+        this.name = this.categories[this.setCategory - 1].name;
+      }
     },
     saveFile: function () {
       //Create formData
       var data = new FormData();
-      this.name =
-        //Add to image selected
-        data.append("file", this.file);
+      this.name = this.name + " " + this.addField;
+      //Add to image selected
+      data.append("file", this.file);
       data.append(
         "name",
         this.name
@@ -479,13 +449,8 @@ export default {
         .then((response) => {
           $("#fileTable").DataTable().destroy();
           this.getFiles();
-          this.name = "";
-          this.created = "";
-          this.category_id = "";
-          this.file = "";
-          this.errors = [];
           swal("¡Buen trabajo!", "¡Archivo creado con exito!", "success");
-          $("#fileModal").modal("hide");
+          this.clearFields();
         })
         .catch((error) => {
           console.log(response.data);
@@ -593,7 +558,7 @@ export default {
         });
     },
     clearFields: function () {
-      $("#folderModal").modal("hide");
+      $("#fileModal").modal("hide");
       this.name = "";
       this.data = "";
       this.created = "";
@@ -601,6 +566,8 @@ export default {
       this.file = "";
       this.update = "";
       this.setCategory = null;
+      this.addField = "";
+      this.errors = [];
     },
   },
 };

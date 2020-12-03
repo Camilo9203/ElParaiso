@@ -109,7 +109,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap5.min.js"></script>
-  @yield('scripts')>
+  @yield('scripts')
   <!--   Core JS Files   -->
   <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>
   <script src="{{ asset('material') }}/js/core/popper.min.js"></script>
@@ -121,7 +121,7 @@
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="{{ asset('material') }}/js/plugins/jquery.dataTables.min.js"></script>
 
-  <script src="{{ asset('/js/app.js?id=c3d65862504afed565e0') }}" type="text/javascript"></script>
+  <script src="{{ asset('/js/app.js?id=6e1f21b9926aa4174380') }}" type="text/javascript"></script>
 </body>
 
 
